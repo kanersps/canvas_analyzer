@@ -37,7 +37,7 @@ const analyzePdf = async (url: string): Promise<Keywords> => {
   });
 
   // Call python3
-  const pythonProcess = spawn("python3", ["/Users/kanepetra/PycharmProjects/qs_nlp/main.py", text]);
+  const pythonProcess = spawn("python3", ["./python/keyword_analyze.py", text]);
 
   let keywords: Keywords = {};
 
