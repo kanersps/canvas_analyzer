@@ -22,6 +22,31 @@ interface SubmissionResponse {
   status: string;
 }
 
+var getSubmissionsByCourse = async (token: string, courses: Course[]): Promise<Submission[]> => {
+  let submissions: Submission[] = [];
+
+  for (let course of courses) {
+    const response = await fetch(`https://fhict.instructure.com/api/v1/courses/${course.id}/students/submissions`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      method: "GET",
+    });
+
+    let data = await response.json();
+
+    let response_data = data as SubmissionResponse;
+
+    if (response_data.status != "unauthorized") {
+      const sub_data = data as Submission[];
+
+      submissions.push(...sub_data);
+    }
+  }
+
+  return submissions;
+};
+
 var getSubmissions = async (token: String, assignments: Assignment[]): Promise<Submission[]> => {
   let submissions: Submission[] = [];
 
@@ -65,4 +90,4 @@ var getAssignments = async (token: String, courses: Course[]): Promise<Assignmen
   return assignments;
 };
 
-export { getAssignments, getSubmissions, Submission, Attachment };
+export { getAssignments, getSubmissions, Submission, Attachment, getSubmissionsByCourse };
