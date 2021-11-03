@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { getCourses } from "./course";
 import { getAssignments, getSubmissions } from "./submissions";
 import { analyzePdf } from "../lib/analyze_pdf";
-import { Keywords } from "../models/keyword";
+import { Keyword, Keywords } from "../models/keyword";
 
 var submissionEndpoint = async (req: Request, res: Response) => {
   try {
