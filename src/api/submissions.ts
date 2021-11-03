@@ -65,4 +65,4 @@ var getAssignments = async (token: String, courses: Course[]): Promise<Assignmen
   return assignments;
 };
 
-export { getAssignments, getSubmissions, Submission };
+export { getAssignments, getSubmissions, Submission, Attachment };

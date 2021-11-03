@@ -1,4 +1,5 @@
 import { analyzePdf } from "../lib/analyze_pdf";
+import { getContentTypeHandler } from "../lib/content-types";
 import { Keywords } from "../models/keyword";
 import { Submission } from "./submissions";
 
@@ -7,10 +8,11 @@ var getKewyords = async (submissions: Submission[]): Promise<Keywords> => {
   for (let submission of submissions) {
     if (submission.workflow_state == "submitted") {
       for (let attachment of submission.attachments) {
-        if (attachment["content-type"] == "application/pdf") {
-          let file_keywords = await analyzePdf(attachment.url);
+        var handler = getContentTypeHandler(attachment["content-type"]);
 
-          // Add keywords to the global keywords
+        if (handler) {
+          let file_keywords = await handler(attachment);
+
           for (let keyword in file_keywords) {
             if (keywords[keyword]) {
               keywords[keyword].count += file_keywords[keyword].count;
