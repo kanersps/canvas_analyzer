@@ -4,7 +4,7 @@ import { spawn } from "child_process";
 import { once } from "events";
 import { Keywords } from "../models/keyword";
 
-const analyzePdf = async (url: string): Promise<Keywords> => {
+const analyzePdf = async (url: string): Promise<String> => {
   const res = await fetch(url);
 
   const file = await res.buffer();
@@ -25,24 +25,9 @@ const analyzePdf = async (url: string): Promise<Keywords> => {
     return allText;
   });
 
+  return text;
+
   // Call python3
-  const pythonProcess = spawn("python3", ["./python/keyword_analyze.py", text]);
-
-  let keywords: Keywords = {};
-
-  pythonProcess.stdout.on("data", (data: any) => {
-    for (let keyword of JSON.parse(data.toString().replace(/'/g, '"'))) {
-      if (keywords[keyword]) {
-        keywords[keyword].count++;
-      } else {
-        keywords[keyword] = { name: keyword, count: 1 };
-      }
-    }
-  });
-
-  await once(pythonProcess, "close");
-
-  return keywords;
 };
 
 export { analyzePdf };

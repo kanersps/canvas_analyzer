@@ -4,7 +4,7 @@ import { Keywords } from "../../models/keyword";
 var handleZip = async (attachment: Attachment): Promise<Keywords> => {
   let keywords: Keywords = {};
 
-  console.log(attachment);
+  //console.log(attachment);
 
   return keywords;
 };

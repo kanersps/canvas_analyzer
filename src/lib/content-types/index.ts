@@ -12,7 +12,7 @@ const ContentTypes: ContentType = {
   "application/x-zip-compressed": handleZip,
 };
 
-var getContentTypeHandler = (contentType: string): ((data: Attachment) => Promise<Keywords>) | null => {
+var getContentTypeHandler = (contentType: string): ((data: Attachment) => Promise<String>) | null => {
   if (contentType in ContentTypes) {
     return ContentTypes[contentType];
   } else {
